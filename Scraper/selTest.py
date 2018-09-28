@@ -14,31 +14,29 @@ elem.send_keys(user)
 elem = driver.find_element_by_id("pwd")
 elem.send_keys(password)
 elem.send_keys(Keys.RETURN)
-"""
-wait = WebDriverWait( driver, 5 )
 
-
-try:
-    page_loaded = wait.until_not(
-        lambda browser: browser.current_url == login_page
-        )
-except TimeoutException:
-    self.fail( "Loading timeout expired" )
-
-self.assertEqual(
-    browser.current_url,
-    correct_page,
-    msg = "Successful Login"
-    )
-"""
 
 driver.get("https://soar.usm.edu/psp/saprd90/EMPLOYEE/SA/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL")
-#driver.get("https://soar.usm.edu/psc/saprd90/EMPLOYEE/SA/c/PRJCS_MENU.PRJCS_SCHD_STRT.GBL?Page=PRJCS_SCHD_STRT&Action=U&TargetFrameName=None%22")
+driver.get("https://soar.usm.edu/psc/saprd90/EMPLOYEE/SA/c/PRJCS_MENU.PRJCS_SCHD_STRT.GBL?Page=PRJCS_SCHD_STRT&Action=U&TargetFrameName=None%22")
+driver.find_element_by_id("win0divPRJCS_DERIVED_PRJCS_LAUNCH_CS").click()
 
-#driver.find_element_by_id("DERIVED_SSS_SCL_SSS_MORE_ACADEMICS").click()
-el = driver.find_element_by_id('DERIVED_SSS_SCL_SSS_MORE_ACADEMICS')
-for option in el.find_elements_by_tag_name('option'):
-    if option.text == 'Class Schedule':
-        option.click() # select() in earlier versions of webdriver
-        break
-#driver.close()
+main_window=driver.current_window_handle
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.TAB)
+#driver.switch_to.window(main_window)
+
+wait=WebDriverWait( driver, 10 )
+
+try:
+    page_loaded = wait.until(
+        lambda driver: driver.current_url == "usm.collegescheduler.com/entry"
+        )
+except TimeoutException:
+    print( "Loading timeout expired" )
+    print(driver.current_url)
+
+schedule_source=open("collegescheduler.html", "w")
+
+driver.get("https://usm.collegescheduler.com/courses")
+html = driver.page_source
+schedule_source.write(html).close()
