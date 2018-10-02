@@ -3,9 +3,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from   selenium.common.exceptions import TimeoutException
 
+from selenium.webdriver.chrome.options import Options
+
+import getpass
+
 user=input("please enter username: ")
-password=input("please enter a password: ")
-driver=webdriver.Chrome()
+password=getpass.getpass("please enter a password: ")
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+driver = webdriver.Chrome(chrome_options=chrome_options)
+#driver=webdriver.Chrome()
 
 driver.get("https://soar.usm.edu/psp/saprd90/?cmd=login")
 assert "SOAR" in driver.title
