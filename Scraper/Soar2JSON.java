@@ -31,9 +31,9 @@ public class Soar2JSON {
         try
 
         {
-            String user_name="w10016423";
+            String user_name="w111111111";
             String Semester_ID="4191";
-            String password="Loveisthelaw93";
+            String password="12345";
 
             String e_pass=URLEncoder.encode(password, StandardCharsets.UTF_8.name());
             String send_this=("userid="+user_name+"&pwd="+e_pass);
